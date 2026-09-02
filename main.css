@@ -310,7 +310,7 @@ select option{
     }
   }
   #sep-done{
-    background-color: var(--yelow);
+    background-color: var(--green);
   }
 
   #sep1, #sep2, #sep3{
