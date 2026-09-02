@@ -281,6 +281,7 @@ select option{
       flex-direction: column;
       border-radius: 20px;
       padding: 20px;
+      width: 50%;
       background-color: var(--lightGray);
       gap: 20px;
       box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
@@ -309,7 +310,7 @@ select option{
     }
   }
   #sep-done{
-    background-color: var(--green);
+    background-color: var(--yelow);
   }
 
   #sep1, #sep2, #sep3{
