@@ -88,7 +88,7 @@ function renderFilter(){
             }else{
                 separation.className = 'sep';
             }
-            if (s < filterContainer[i].levelValue / 100){
+            if (s < filterContainer[i].levelValue / 10){
                 separation.id = 'sep-done';
                 console.log(filterContainer[i].levelValue);
             }
