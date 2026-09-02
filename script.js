@@ -235,7 +235,7 @@ function renderTask(){
             }
 
             //calendarForm(taskPanel, taskContainer[i].filterValue);            
-//            if(currentTask.dateValue !== date.getDate()){
+            if(currentTask.dateValue !== date.getDate()){
                 const doneBtn = document.createElement('button');
                 doneBtn.className = 'doneBtn';
                 doneBtn.textContent = 'Выполнено';
@@ -268,7 +268,7 @@ function renderTask(){
                     renderTask();
                     renderFilter();
                 }
-//            }
+            }
             manipulatePanel.append(doneBtn);
             newCalendar(manipulatePanel, taskContainer[i].filterValue, i, taskContainer[i].id);
             delBtn.onclick = function(){
