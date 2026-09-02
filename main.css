@@ -312,22 +312,6 @@ select option{
   #sep-done{
     background-color: var(--green);
   }
-
-  #sep1, #sep2, #sep3{
-    background-color: var(--yelow);
-  }
-  #sep1{
-    border-radius: 150px 0 0 150px;
-  }
-  #sep4, #sep5, #sep6{
-    background-color: var(--orange);
-  }
-  #sep7, #sep8, #sep9{
-    background-color: var(--red);
-  }
-  #sep10{
-    background-color: var(--blue);
-  }
 }
 
 .filter{
