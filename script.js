@@ -90,7 +90,6 @@ function renderFilter(){
             }
             if (s < filterContainer[i].levelValue / 10){
                 separation.id = 'sep-done';
-                console.log(filterContainer[i].levelValue);
             }
             level.appendChild(separation);
         }
@@ -234,41 +233,36 @@ function renderTask(){
                 renderTask();
             }
 
-            //calendarForm(taskPanel, taskContainer[i].filterValue);            
-//            if(currentTask.dateValue !== date.getDate()){
-                const doneBtn = document.createElement('button');
-                doneBtn.className = 'doneBtn';
-                doneBtn.textContent = 'Выполнено';
-                manipulatePanel.appendChild(delBtn);
+            const doneBtn = document.createElement('button');
+            doneBtn.className = 'doneBtn';
+            doneBtn.textContent = 'Выполнено';
+            manipulatePanel.appendChild(delBtn);
+            
+            doneBtn.onclick = function() {
 
-                doneBtn.onclick = function() {
-
-                    const calendar = {
-                        idTask: i,
-                        month: date.getMonth(),
-                        date: date.getDate(),
-                        filter: taskContainer[i].filterValue
-                    }
-                    console.log(calendar.filter);
-                    currentTask.dateValue = date.getDate();
-                    const filter = filterContainer.find(f => f.nameValue === currentTask.filterValue);
-                    if (filter) {
-                        filter.levelValue += 10;
-                        console.log(filter.levelValue);
-                    }
-                    if (filter.levelValue > 900) {
-                        filter.levelValue = 0;
-                    }
-                    checkedMonth.push(calendar);
-                    localStorage.setItem('calendar', JSON.stringify(checkedMonth));
-                    localStorage.setItem('newTask', JSON.stringify(taskContainer));
-                    localStorage.setItem('newFilter', JSON.stringify(filterContainer));
-                    overlay.remove();
-                    form.remove();
-                    renderTask();
-                    renderFilter();
+                const calendar = {
+                    idTask: i,
+                    month: date.getMonth(),
+                    date: date.getDate(),
+                    filter: taskContainer[i].filterValue
                 }
-//            }
+                currentTask.dateValue = date.getDate();
+                const filter = filterContainer.find(f => f.nameValue === currentTask.filterValue);
+                if (filter) {
+                    filter.levelValue += 10;
+                }
+                if (filter.levelValue > 900) {
+                    filter.levelValue = 0;
+                }
+                checkedMonth.push(calendar);
+                localStorage.setItem('calendar', JSON.stringify(checkedMonth));
+                localStorage.setItem('newTask', JSON.stringify(taskContainer));
+                localStorage.setItem('newFilter', JSON.stringify(filterContainer));
+                overlay.remove();
+                form.remove();
+                renderTask();
+                renderFilter();
+            }
             manipulatePanel.append(doneBtn);
             newCalendar(manipulatePanel, taskContainer[i].filterValue, i, taskContainer[i].id);
             delBtn.onclick = function(){
@@ -349,7 +343,6 @@ function calendarForm(panel, currentFilter) {
     colomnList.className = 'colomnList';
     const name = document.createElement('div');
     name.textContent = monthName[date.getMonth()+month] + ' ' + date.getYear();
-    console.log(date.getMonth()+month);
     back.append(name, rowList, colomnList);
     const controlPanel = document.createElement('div');
     controlPanel.className = 'controlPanel';
@@ -412,7 +405,6 @@ function calendarForm(panel, currentFilter) {
             colomnLine.appendChild(colomn);
         }
     }
-    console.log(date.getMonth());   
 }
 
 let weekChange = 0;
@@ -430,7 +422,6 @@ function newCalendar(panel, filter, taskID){
     if (regDay > 0){
         regDay = -regDay;
     }
-    console.log(regDay);
     for(let calendarDay = 0; calendarDay < 7; calendarDay++){
         const dayItem = document.createElement('div');
         dayItem.className = 'day-item';
@@ -445,14 +436,11 @@ function newCalendar(panel, filter, taskID){
         dayName.className = 'day-name';
         for (let m = 0; m < checkedMonth.length; m ++){
             if (currentDate == checkedMonth[m].date & checkedMonth[m].filter == filter & taskID == checkedMonth[m].idTask){
-                console.log(checkedMonth[m]);
                 dayItem.className = 'day-item day-active';
-                console.log("Task ID " + taskID);
             }
         }
         dayName.textContent = week[calendarDay];
         regDay=regDay+1;
-        console.log(regDay);
         dayItem.append(dayNumber, dayName);
     }
 
