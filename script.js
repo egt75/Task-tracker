@@ -237,6 +237,8 @@ function renderTask(){
             doneBtn.className = 'doneBtn';
             doneBtn.textContent = 'Выполнено';
             manipulatePanel.appendChild(delBtn);
+
+            let currentDate = date.getMonth().toString() + date.getDate().toString() + date.getFullYear().toString();
             
             doneBtn.onclick = function() {
 
@@ -244,15 +246,13 @@ function renderTask(){
                     idTask: i,
                     month: date.getMonth(),
                     date: date.getDate(),
-                    filter: taskContainer[i].filterValue
+                    filter: taskContainer[i].filterValue,
+                    fullDate: currentDate
                 }
                 currentTask.dateValue = date.getDate();
                 const filter = filterContainer.find(f => f.nameValue === currentTask.filterValue);
                 if (filter) {
                     filter.levelValue += 10;
-                }
-                if (filter.levelValue > 900) {
-                    filter.levelValue = 0;
                 }
                 checkedMonth.push(calendar);
                 localStorage.setItem('calendar', JSON.stringify(checkedMonth));
@@ -260,10 +260,16 @@ function renderTask(){
                 localStorage.setItem('newFilter', JSON.stringify(filterContainer));
                 overlay.remove();
                 form.remove();
-                renderTask();
                 renderFilter();
+                renderTask();
             }
-            manipulatePanel.append(doneBtn);
+            manipulatePanel.append(doneBtn); 
+            for (let t = 0; t < checkedMonth.length; t++){
+                if(checkedMonth[t].idTask == i && checkedMonth[t].fullDate === currentDate){
+                    doneBtn.remove();
+                }
+            }
+            
             newCalendar(manipulatePanel, taskContainer[i].filterValue, i, taskContainer[i].id);
             delBtn.onclick = function(){
                 taskContainer.splice(taskContainer[i], 1);
