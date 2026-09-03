@@ -281,10 +281,14 @@ select option{
       flex-direction: column;
       border-radius: 20px;
       padding: 20px;
-      width: 50%;
+      width: calc((100vw - (100px + 2 * 40px + 20px + 12px))/2);
       background-color: var(--lightGray);
       gap: 20px;
       box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+
+      @media (max-width: 768px) {
+        width: calc(100vw - 142px);
+      }
     }
   }
 }
@@ -310,7 +314,23 @@ select option{
     }
   }
   #sep-done{
-    background-color: var(--green);
+    background-color: var(--yelow);
+  }
+
+  #sep1, #sep2, #sep3{
+    background-color: var(--yelow);
+  }
+  #sep1{
+    border-radius: 150px 0 0 150px;
+  }
+  #sep4, #sep5, #sep6{
+    background-color: var(--orange);
+  }
+  #sep7, #sep8, #sep9{
+    background-color: var(--red);
+  }
+  #sep10{
+    background-color: var(--blue);
   }
 }
 
@@ -449,6 +469,7 @@ select option{
 
 ::-webkit-scrollbar{
   background-color: #191a1a;
+  width: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
