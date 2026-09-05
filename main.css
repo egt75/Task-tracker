@@ -16,6 +16,8 @@
   --lightGray: #f0f0f0;
   --green: #3e6868;
   --lightRed: #c94e44;
+  --subText: #393939;
+  --gray: #cccccc;
 }
 
 .mainContainer{
@@ -59,6 +61,15 @@
   display: flex;
   gap: 20px;
   flex-direction: column;
+
+  .rowPanel{
+    display: flex;
+    gap: 20px;
+    flex-direction: row;
+    @media (max-width: 768px) {
+      flex-direction: column;
+    }
+  }
 }
 
 .taskName{
@@ -75,8 +86,6 @@
   gap: 10px;
   background-color: var(--lightGray);
   width: 50vw;
-  height: 50vh;
-  min-height: 350px;
   border-radius: 25px;
   border: 0px;
   padding: 20px;
@@ -202,7 +211,7 @@
   border: 0px;
   color: var(--lightGray);
 }
-.saveBtn, .addFilter, .addTask, .doneBtn, .delBtn{
+.saveBtn, .addFilter, .addTask, .doneBtn, .delBtn, .achivmentBtn{
   height: 30px;
   width: 180px;
   border-radius: 50px;
@@ -354,6 +363,7 @@ select option{
 .procent{
   width: 30px;
 }
+
 .filterName{
   width: 100px;
   font-size: 14px;
@@ -481,3 +491,57 @@ select option{
 .press{
   background-color: var(--blue);
 }
+
+.achivmentPanel{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 20px;
+  overflow-y: auto;
+  justify-content: center;
+
+  .achivmentLabel{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: calc((50vw - (40px * 2 + 20px *2 + 20px + 20px * 3))/3);
+    @media (max-width: 768px) {
+      width: calc(80vw - (40px * 2));
+    }
+    border-radius: 20px;
+    padding: 20px;
+    background-color: var(--lightGray);
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .achivmentItem{
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background-color: var(--gray);
+      color: var(--lightGray);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    #achivmentItemChecked{
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background-color: var(--green);
+    }
+
+    .achivmentName{
+      font-size: 18px;
+      text-align: center;
+    }
+   
+    .achivmentDescription{
+      text-align: center;
+      font-size: 12px;
+      color: var(--subText);
+    }
+  }
+} 
