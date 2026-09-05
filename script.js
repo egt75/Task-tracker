@@ -16,6 +16,23 @@ const saveCalendarTask = localStorage.getItem('calendar');
 let taskContainer = [];
 let checkedMonth = [];
 
+const achivment = document.getElementById('achivmentBtn');
+const saveAchivment = localStorage.getItem('achivment');
+let achivmentLibrary = [
+    {id: 1, name: 'Начало пути', description: 'Создана первая привычка', level: 1, checked: false, progress: 0},
+    {id: 2, name: 'Первые шаги', description: 'Привычки выполнены 10 раз', level: 2, checked: false, progress: 0},
+    {id: 3, name: 'На пути к успеху', description: 'Привычки выполнены 50 раз', level: 3, checked: false, progress: 0},
+    {id: 4, name: 'Успех близок', description: 'Привычки выполнены 100 раз', level: 4, checked: false, progress: 0},
+    {id: 5, name: 'Мастер привычек', description: 'Привычки выполнены 200 раз', level: 5, checked: false, progress: 0},
+    {id: 6, name: 'Легенда привычек', description: 'Привычки выполнены 500 раз', level: 6, checked: false, progress: 0},
+    {id: 7, name: 'Первая стата', description: 'Заполнена первая стата', level: 1, checked: false, progress: 0},
+    {id: 8, name: 'Вторая стата', description: 'Заполнены две статы', level: 2, checked: false, progress: 0},
+    {id: 9, name: 'Мастер стат', description: 'Заполнены шесть стат', level: 3, checked: false, progress: 0}
+];
+if (saveAchivment !== null){
+    achivmentLibrary = JSON.parse(saveAchivment);
+}
+
 const task = document.getElementById('task');
 
 const date = new Date();
@@ -33,6 +50,79 @@ if (saveTaskContainer !== null){
     taskContainer = JSON.parse(saveTaskContainer);
 }
 renderTask();
+
+achivment.onclick = function() {
+    const overlay = document.createElement('div');
+    const form = document.createElement('div');
+    const controlPanel = document.createElement('div');
+    const closeBtn = document.createElement('button');
+    overlay.className = 'overlay';
+    overlay.id = 'overlay';
+    mainContainer.appendChild(overlay);
+
+    form.className = 'form';
+    form.id = 'form';
+    overlay.appendChild(form);
+
+    controlPanel.className = 'controlPanel';
+    controlPanel.style.justifyContent = 'flex-end';
+    form.appendChild(controlPanel);
+
+    closeBtn.className = 'closeBtn';
+    closeBtn.textContent = '✖';
+    closeBtn.id = 'closeBtn';
+    controlPanel.appendChild(closeBtn);
+
+    closeBtn.onclick = function() {
+        form.remove();
+        overlay.remove();
+    }
+
+    const achivmentPanel = document.createElement('div');
+    achivmentPanel.className = 'achivmentPanel';
+    achivmentPanel.style.paddingBottom = '20px';
+    achivmentPanel.style.paddingTop = '20px';
+    form.appendChild(achivmentPanel);
+
+    for (let i = 0; i < achivmentLibrary.length; i++){
+        const achivmentLabel = document.createElement('div');
+        achivmentLabel.className = 'achivmentLabel';
+        achivmentPanel.appendChild(achivmentLabel);
+
+        const achivmentItem = document.createElement('div');
+        achivmentItem.className = 'achivmentItem';
+        achivmentItem.textContent = '✖';
+        if (achivmentLibrary[i].checked == true){
+            achivmentItem.id = 'achivmentItemChecked';
+            achivmentItem.textContent = '✔';
+        }
+        achivmentLabel.appendChild(achivmentItem);
+
+        const achivmentName = document.createElement('div');
+        achivmentName.className = 'achivmentName';
+        achivmentName.textContent = achivmentLibrary[i].name;
+        achivmentLabel.appendChild(achivmentName);
+
+        const achivmentDescription = document.createElement('div');
+        achivmentDescription.className = 'achivmentDescription';
+        achivmentDescription.textContent = achivmentLibrary[i].description;
+        achivmentLabel.appendChild(achivmentDescription);
+
+        const progress = document.createElement('div');
+        progress.className = 'achivmentDescription';
+        progress.textContent = 'Достигнуто: ' + achivmentLibrary[i].progress;
+        if (achivmentLibrary[i].progress == 'undefined'){
+            progress.textContent = 'Достигнуто: 0';
+        }
+        achivmentLabel.appendChild(progress);
+    }
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            form.remove();
+            overlay.remove();
+        }
+    });
+}
 
 addFilter.onclick = function() {
     const filter ={
@@ -96,21 +186,27 @@ function renderFilter(){
 
         const procent = document.createElement('div');
         procent.className = 'procent';
-        procent.textContent = filterContainer[i].levelValue/10 + '%';
+        let currentFilterProcent = filterContainer[i].levelValue/10
+        if (currentFilterProcent > 100){
+            procent.textContent = '100 %';
+        }else{
+            procent.textContent = currentFilterProcent + '%';
+        }
+        
         filter.append(procent);
 
         const delBtn = document.createElement('button');
         delBtn.className = 'delBtn';
         const screenWidth = window.innerWidth;
         if (screenWidth < 768){
-            delBtn.textContent = 'Х';
+            delBtn.textContent = '✖';
         }else{
             delBtn.textContent = 'Удалить';
         }
         filter.appendChild(delBtn);
 
         delBtn.onclick = function(){
-            filterContainer.splice(filterContainer[i], 1);
+            filterContainer.splice(i, 1);
             localStorage.setItem('newFilter', JSON.stringify(filterContainer));
             renderFilter();
         }
@@ -173,6 +269,11 @@ addTask.onclick = function() {
         renderTask();
         form.remove();
         overlay.remove();
+        if (achivmentLibrary[0].checked == false){
+            achivmentLibrary[0].checked = true;
+            achivmentLibrary[0].progress = 1;
+            localStorage.setItem('achivment', JSON.stringify(achivmentLibrary));    
+        }
     }
 }
 
@@ -237,9 +338,7 @@ function renderTask(){
             doneBtn.className = 'doneBtn';
             doneBtn.textContent = 'Выполнено';
             manipulatePanel.appendChild(delBtn);
-
             let currentDate = date.getMonth().toString() + date.getDate().toString() + date.getFullYear().toString();
-            
             doneBtn.onclick = function() {
 
                 const calendar = {
@@ -255,6 +354,25 @@ function renderTask(){
                     filter.levelValue += 10;
                 }
                 checkedMonth.push(calendar);
+                for (let a = 1; a < achivmentLibrary.length - 3; a++){
+                    achivmentLibrary[a].progress = taskContainer.length;
+                    if (taskContainer.length == 10){
+                        achivmentLibrary[1].checked = true;
+                    }
+                    if(taskContainer.length == 50){
+                        achivmentLibrary[2].checked = true;
+                    }
+                    if(taskContainer.length == 100){
+                        achivmentLibrary[3].checked = true;
+                    }
+                    if (taskContainer.length == 200){
+                        achivmentLibrary[4].checked = true;
+                    }
+                    if (taskContainer.length == 500){
+                        achivmentLibrary[5].checked = true;
+                    }
+                }
+                localStorage.setItem('achivment', JSON.stringify(achivmentLibrary));
                 localStorage.setItem('calendar', JSON.stringify(checkedMonth));
                 localStorage.setItem('newTask', JSON.stringify(taskContainer));
                 localStorage.setItem('newFilter', JSON.stringify(filterContainer));
@@ -270,6 +388,7 @@ function renderTask(){
                 }
             }
             
+
             newCalendar(manipulatePanel, taskContainer[i].filterValue, i, taskContainer[i].id);
             delBtn.onclick = function(){
                 taskContainer.splice(taskContainer[i], 1);
