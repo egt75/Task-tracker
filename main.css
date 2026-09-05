@@ -229,6 +229,9 @@
 .doneBtn{
   background-color: var(--green);
 }
+.addTask{
+  width: auto;
+}
 
 .taskSelect{
   top: calc(5% + 30px);
